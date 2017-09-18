@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<link rel="stylesheet" type="text/css" href="jquery-ui.css"/>
+		<!--<link rel="stylesheet" type="text/css" href="jquery-ui-theme-hotsneaks.css" />-->
+	</head>
+	<script src="jquery-1.11.3.js" type="text/javascript" charset="utf-8"></script>
+	<script src="jquery-ui.js" type="text/javascript" charset="utf-8"></script>
+
+	<body>
+		<h1>折叠菜单</h1><hr />
+		<div id="accordion" style="width: 700px;">
+			<h3>Section 1</h3>
+			<div>
+				<p> Mauris mauris ante </p>
+			</div>
+			<h3>Section 2</h3>
+			<div>
+				<p> Sed non urna. </p>
+			</div>
+			<h3>Section 3</h3>
+			<div>
+				<p> Nam enim risus </p>
+			</div>
+		</div>
+
+		<h1>日期控件</h1><hr />
+		<p>Date: <input type="text" id="datepicker"></p>
+		
+		<h1>自动补全提示</h1><hr />
+		<p>AutoComplete: <input type="text" id="autocomplete"></p>
+		
+		<h1>对话提示框</h1><hr />
+		<button id="openDialog">打开窗口</button>
+		<div id="dialog" title="Basic dialog">
+		  	<p>This is the default dialog which is useful for displaying information. The dialog window can be moved, resized and closed with the 'x' icon.</p>
+		</div>
+	</body>
+
+	<script type="text/javascript">
+		$(function() {
+
+			$("#accordion").accordion();
+			
+			$("#datepicker").datepicker();
+			
+		    
+		    $("#autocomplete").autocomplete({
+		    	source : function( request, response ) {
+			        $.ajax({
+			          	url: "http://suggestion.baidu.com?wd="+request.term,
+			          	dataType: "jsonp",
+			          	
+			          	jsonp: "cb",
+			          	success: function( data ) {
+			            	response(data.s);
+			          	}
+			        });
+		      	},
+		      	select : function( event, ui ){
+		      		console.log(ui.item.value)
+		      	}
+		    });
+		    
+		    
+		    $("#dialog").dialog({
+		    	autoOpen: false,
+		    	buttons: {
+		    		"确定" : function(){
+		    			$(this).dialog("close");
+		    		}
+		    	}
+		    });
+		    
+		   	$("#openDialog").click(function(){
+		   		$("#dialog").dialog("open");
+		   	})
+		});
+	</script>
+
+</html>
